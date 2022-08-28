@@ -7,11 +7,28 @@ const resultsModal = new bootstrap.Modal(document.getElementById('resultsModal')
 document.getElementById('status').addEventListener('click', e => getStatus(e)); //eventlisteners for buttons
 document.getElementById('submit').addEventListener('click', e => postForm(e));
 
+function processOptions(form) {
+    let optArray = [];
 
+    for(let entry of form.entries()){
+        if (entry[0]==='options') {
+            optArray.push(entry[1])
+        }
+    }
+    form.delete('options');
+
+    form.append('options', optArray.join())
+
+    return form;
+}
 
 
 async function postForm(e) { /// async function for post and get
-    const form = new FormData(document.getElementById('checksform'))
+    const form = processOptions ( new FormData(document.getElementById('checksform')))
+
+    // for(let entry of form.entries()){
+    //     console.log(entry); USED TO CHECK IF WE SEND DATA IN CORRECT WAY
+    // }
 
     const response = await fetch(API_URL, { // add await
         method: "POST",
