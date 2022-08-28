@@ -41,6 +41,7 @@ async function postForm(e) { /// async function for post and get
         if (response.ok){ //when data is reciveied 
            displayErrors(data)
         } else {
+            displayException(data)
             throw new Error(data.error)
         }
 }       
@@ -86,4 +87,16 @@ async function getStatus(e) {//get function to se if key is ok
         document.getElementById('results-content').innerHTML = results;
 
         resultsModal.show();
+}
+function displayException(data) {
+    let heading = 'An Exception Occurred'
+    results = `<div>The API returned status code ${data.status_code}</div>`
+    results += `<div>Error number:text:<strong>${data.error_no}</strong></div> `
+    results += `<div>Error text:<strong>${data.error}</strong></div>`
+
+    document.getElementById('resultsModalTitle').innerHTML = heading;
+    document.getElementById('results-content').innerHTML = results;
+
+    resultsModal.show();
+
 }
